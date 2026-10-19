@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout Success</title>
+  <style>body{font-family:Inter,system-ui,Arial;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}.card{width:100%;max-width:540px;background:#111827;padding:24px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,.6)}</style>
+</head>
+<body>
+  <div class="card">
+    <h2 id="title">Verificando compra...</h2>
+    <p id="msg">Por favor espera mientras verificamos el pago.</p>
+    <div id="result" style="margin-top:16px"></div>
+    <div style="margin-top:12px"><a id="back" href="/" style="color:#60a5fa">Volver a la app</a></div>
+  </div>
+
+  <script>
+    (async function(){
+      const params = new URLSearchParams(location.search);
+      const orderId = params.get('orderId') || params.get('external_reference');
+      const gateway = params.get('gateway') || 'mercadopago';
+      const title = document.getElementById('title');
+      const msg = document.getElementById('msg');
+      const result = document.getElementById('result');
+
+      if(!orderId){ title.textContent='Error'; msg.textContent='No se encontró orderId en la URL.'; return }
+
+      try{
+        const res = await fetch(`/api/verify-order?orderId=${encodeURIComponent(orderId)}&gateway=${encodeURIComponent(gateway)}`);
+        const json = await res.json();
+        if(json.status==='paid'){
+          title.textContent = 'Pago confirmado ✅';
+          msg.textContent = 'Tu compra fue confirmada. Guarda este código para restaurarla en otro dispositivo.';
+          const code = json.redeemCode || '';
+          result.innerHTML = `<textarea rows=4 style="width:100%;background:#0b1220;color:#d1fae5;border:1px solid #1f2937;padding:8px;border-radius:8px">${code}</textarea>
+            <div style="margin-top:8px">Copia el código y guárdalo en un lugar seguro.</div>`;
+          try{ localStorage.setItem('premium_redeem_code', code); localStorage.setItem('premium_active','true'); localStorage.setItem('premium_item','vip_pass'); }catch(e){}
+        }else{
+          title.textContent = 'Pago pendiente';
+          msg.textContent = 'El pago aún no está confirmado. Intenta de nuevo en unos segundos.';
+          result.innerHTML = `<pre style="white-space:pre-wrap;background:#071023;padding:8px;border-radius:8px">${JSON.stringify(json,null,2)}</pre>`;
+        }
+      }catch(e){ title.textContent='Error'; msg.textContent='Fallo al verificar. Revisa la consola.'; result.textContent = e.message }
+    })();
+  </script>
+</body>
+</html>

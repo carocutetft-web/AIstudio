@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Restaurar compra</title>
+  <style>body{font-family:Inter,system-ui,Arial;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}.card{width:100%;max-width:540px;background:#111827;padding:24px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,.6)}textarea{width:100%;height:120px;background:#071023;color:#d1fae5;border:1px solid #1f2937;padding:8px;border-radius:8px}</style>
+</head>
+<body>
+  <div class="card">
+    <h2>Restaurar compra</h2>
+    <p>Pega aquí tu código de restauración y presiona "Restaurar"</p>
+    <textarea id="code"></textarea>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button id="btn" style="background:#10b981;border:none;padding:8px 12px;border-radius:8px;color:#04201a">Restaurar</button>
+      <button id="clear" style="background:#1f2937;border:none;padding:8px 12px;border-radius:8px;color:#fff">Borrar</button>
+    </div>
+    <div id="out" style="margin-top:12px"></div>
+    <div style="margin-top:12px"><a href="/" style="color:#60a5fa">Volver a la app</a></div>
+  </div>
+
+  <script>
+    const btn = document.getElementById('btn');
+    const clear = document.getElementById('clear');
+    const out = document.getElementById('out');
+    btn.addEventListener('click', async ()=>{
+      out.textContent='Verificando...';
+      const code = document.getElementById('code').value.trim();
+      if(!code){ out.textContent='Pega un código válido'; return }
+      try{
+        const res = await fetch('/api/redeem', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ code }) });
+        const json = await res.json();
+        if(json.valid){
+          out.innerHTML = '<b style="color:#bbf7d0">Código válido. Compra restaurada.</b>';
+          try{ localStorage.setItem('premium_redeem_code', code); localStorage.setItem('premium_active','true'); localStorage.setItem('premium_item', json.payload?.itemId || 'vip_pass'); }catch(e){}
+        }else{
+          out.textContent = 'Código inválido o expirado';
+        }
+      }catch(e){ out.textContent = 'Error al verificar el código' }
+    });
+    clear.addEventListener('click', ()=>{ document.getElementById('code').value=''; out.textContent=''; localStorage.removeItem('premium_redeem_code'); localStorage.removeItem('premium_active'); localStorage.removeItem('premium_item'); });
+  </script>
+</body>
+</html>
