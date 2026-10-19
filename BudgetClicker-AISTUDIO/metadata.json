@@ -1,0 +1,6 @@
+{
+  "name": "AhorroPulse: Budget Clicker Tycoon",
+  "description": "Gamified budgeting clicker PWA with daily streak rewards, savings goals, customizable themes, and offline privacy storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

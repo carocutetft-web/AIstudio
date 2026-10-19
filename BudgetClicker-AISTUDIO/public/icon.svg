@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+    <linearGradient id="piggyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ec4899" />
+      <stop offset="50%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="50%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background rounded squircle -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
+
+  <!-- Outer ambient ring -->
+  <circle cx="256" cy="270" r="170" fill="none" stroke="#10b981" stroke-width="4" stroke-opacity="0.3" stroke-dasharray="12 12" />
+
+  <!-- Golden Coin Dropping -->
+  <g filter="url(#glow)">
+    <circle cx="256" cy="120" r="48" fill="url(#goldGrad)" stroke="#fef08a" stroke-width="4" />
+    <text x="256" y="138" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="52" fill="#78350f" text-anchor="middle">$</text>
+  </g>
+
+  <!-- Piggy Bank Body -->
+  <!-- Snout -->
+  <ellipse cx="140" cy="290" rx="42" ry="34" fill="#fb7185" />
+  <ellipse cx="132" cy="285" rx="8" ry="12" fill="#9f1239" opacity="0.6" />
+  <ellipse cx="152" cy="285" rx="8" ry="12" fill="#9f1239" opacity="0.6" />
+
+  <!-- Main Body -->
+  <ellipse cx="270" cy="290" rx="140" ry="115" fill="url(#piggyGrad)" />
+
+  <!-- Piggy Ears -->
+  <path d="M 210 200 C 190 140, 240 130, 250 185 Z" fill="#f43f5e" stroke="#fda4af" stroke-width="4" />
+  <path d="M 220 190 C 205 155, 235 150, 242 182 Z" fill="#fbcfe8" opacity="0.8" />
+
+  <!-- Coin Slot on Back -->
+  <rect x="236" y="180" width="48" height="12" rx="6" fill="#881337" />
+
+  <!-- Eye & Smile -->
+  <circle cx="205" cy="250" r="10" fill="#1e1b4b" />
+  <circle cx="202" cy="247" r="3.5" fill="#ffffff" />
+  <path d="M 180 295 Q 195 310 210 298" fill="none" stroke="#9f1239" stroke-width="4" stroke-linecap="round" />
+
+  <!-- Cute Cheek Blush -->
+  <circle cx="225" cy="280" r="16" fill="#fda4af" opacity="0.6" />
+
+  <!-- Legs -->
+  <rect x="180" y="375" width="34" height="42" rx="16" fill="#be123c" />
+  <rect x="310" y="375" width="34" height="42" rx="16" fill="#be123c" />
+
+  <!-- Little Curly Tail -->
+  <path d="M 405 280 C 430 270, 440 300, 420 310 C 410 315, 425 325, 435 315" fill="none" stroke="#f43f5e" stroke-width="8" stroke-linecap="round" />
+
+  <!-- Sparks / Stars -->
+  <path d="M 390 150 L 396 165 L 411 171 L 396 177 L 390 192 L 384 177 L 369 171 L 384 165 Z" fill="#34d399" />
+  <path d="M 110 180 L 114 190 L 124 194 L 114 198 L 110 208 L 106 198 L 96 194 L 106 190 Z" fill="#facc15" />
+</svg>
